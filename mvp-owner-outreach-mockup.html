@@ -1,0 +1,1144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Owner Outreach | Realty Desk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --ink: #172b28;
+      --ink-soft: #52635e;
+      --muted: #7e8c86;
+      --line: #e2e9e4;
+      --paper: #f3f6f2;
+      --surface: #ffffff;
+      --surface-2: #f8faf8;
+      --green: #176b55;
+      --green-dark: #104c3d;
+      --green-wash: #e9f4ef;
+      --lime: #d9ee6f;
+      --coral: #bf614a;
+      --coral-wash: #fbefeb;
+      --gold: #8b6820;
+      --gold-wash: #f8f1df;
+      --shadow: 0 18px 48px rgba(27, 55, 44, .08);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--paper);
+      color: var(--ink);
+      font: 14px/1.45 "DM Sans", ui-sans-serif, system-ui, sans-serif;
+    }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid rgba(23, 107, 85, .28);
+      outline-offset: 2px;
+    }
+    .app-shell { min-height: 100vh; display: grid; grid-template-columns: 232px minmax(0, 1fr); }
+    .sidebar {
+      background: #173d34;
+      color: #e7f1eb;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: 20px 14px 16px;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; padding: 2px 8px 22px; }
+    .brand-mark {
+      width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center;
+      color: #173d34; background: var(--lime); font-weight: 700; font-size: 17px;
+    }
+    .brand-name { font-weight: 700; letter-spacing: 0; font-size: 15px; }
+    .brand-sub { color: #a9c1b7; font-size: 10px; text-transform: uppercase; }
+    .workspace-switch {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      border: 1px solid rgba(230, 243, 235, .16); background: rgba(255,255,255,.055);
+      color: #eff7f2; text-align: left; border-radius: 7px; padding: 10px 10px; margin: 0 0 23px;
+    }
+    .workspace-switch small { display:block; color:#a9c1b7; font-size:10px; }
+    .nav-label { color: #8ca99d; font-size: 10px; font-weight: 700; letter-spacing: .08em; padding: 0 10px 8px; text-transform: uppercase; }
+    .nav-list { display: grid; gap: 4px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 11px; width: 100%; border: 0; color: #bdd0c7;
+      background: transparent; text-align: left; padding: 10px 11px; border-radius: 7px; font-weight: 500;
+    }
+    .nav-item:hover { background: rgba(255,255,255,.07); color: #fff; }
+    .nav-item.active { color: #173d34; background: var(--lime); font-weight: 700; }
+    .nav-item .count { margin-left: auto; font-size: 11px; color: inherit; opacity: .78; }
+    .sidebar-spacer { flex: 1; }
+    .team-card { border-top: 1px solid rgba(230, 243, 235, .15); padding: 15px 8px 0; display: flex; gap: 10px; align-items: center; }
+    .avatar { display:grid; place-items:center; flex:none; width:32px;height:32px;border-radius:50%; background:#d6e9df;color:#245340;font-size:11px;font-weight:700; }
+    .team-name { color:#f2f7f3; font-size:12px; font-weight:600; }
+    .team-role { color:#9bb5a9; font-size:10px; }
+
+    .main { min-width: 0; }
+    .app-screen { display:none; }
+    .app-screen.active { display:block; }
+    .topbar {
+      height: 66px; background: rgba(255,255,255,.94); border-bottom: 1px solid var(--line);
+      display:flex; align-items:center; justify-content:space-between; gap:18px; padding: 0 28px;
+    }
+    .crumb { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:12px; white-space:nowrap; }
+    .crumb i, .crumb svg, .detail-crumb i, .detail-crumb svg { width:12px;height:12px;flex:none; }
+    .crumb strong { color:var(--ink); font-weight:600; }
+    .topbar-right { display:flex; align-items:center; gap:12px; }
+    .top-search { width: 230px; position:relative; }
+    .top-search i, .top-search svg { position:absolute; left:10px; top:9px; color:var(--muted); width:15px; height:15px; }
+    .top-search input { width:100%; border:1px solid var(--line); border-radius:6px; padding:8px 9px 8px 32px; background:var(--surface-2); font-size:12px; }
+    .icon-button { width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink-soft); }
+    .icon-button:hover { color:var(--green); border-color:#b8d4c4; }
+    .page { padding: 24px 28px 34px; max-width: 1600px; margin: 0 auto; }
+    .page-heading { display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:18px; }
+    .eyebrow { color:var(--green); text-transform:uppercase; font-size:10px; font-weight:700; letter-spacing:.09em; margin:0 0 6px; }
+    h1 { font: 600 31px/1.12 "Newsreader", Georgia, serif; letter-spacing:0; margin:0; }
+    .heading-note { color:var(--ink-soft); font-size:12px; margin:7px 0 0; }
+    .heading-actions { display:flex; align-items:center; gap:8px; }
+    .button {
+      border:1px solid var(--line); background:#fff; color:var(--ink); border-radius:6px; padding:8px 11px;
+      display:inline-flex; align-items:center; justify-content:center; gap:7px; font-size:12px; font-weight:600;
+    }
+    .button:hover { border-color:#b6cec0; background:#fbfdfb; }
+    .button-primary { border-color:var(--green); background:var(--green); color:#fff; }
+    .button-primary:hover { background:var(--green-dark); border-color:var(--green-dark); }
+    .button-soft { background:var(--green-wash); color:var(--green-dark); border-color:#d2e8dc; }
+    .button-danger { color:var(--coral); border-color:#f0d4cb; background:#fff; }
+    .button:disabled { opacity:.45; cursor:not-allowed; }
+    .button i, .button svg, .icon-button i, .icon-button svg, .nav-item i, .nav-item svg { width:15px; height:15px; flex:none; }
+    .metric-strip { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--line); background:var(--surface); border-radius:var(--radius); margin-bottom:18px; }
+    .metric { padding:12px 16px; border-right:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; gap:10px; }
+    .metric:last-child { border:0; }
+    .metric-label { color:var(--muted); font-size:11px; }
+    .metric-value { font-size:20px; font-weight:700; line-height:1.1; }
+    .metric-delta { color:var(--green); font-size:10px; white-space:nowrap; }
+    .filters { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:13px; }
+    .filter-search { position:relative; flex:1 1 230px; max-width:330px; }
+    .filter-search i, .filter-search svg { position:absolute; left:10px; top:10px; width:15px;height:15px;color:var(--muted); }
+    .filter-search input, .select-control { height:36px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--ink); padding:0 10px; font-size:12px; }
+    .filter-search input { width:100%; padding-left:32px; }
+    .select-control { min-width:145px; }
+    .segment { display:inline-flex; border:1px solid var(--line); border-radius:6px; background:#fff; padding:3px; gap:2px; }
+    .segment button { border:0; background:transparent; border-radius:4px; padding:6px 11px; font-size:11px; color:var(--ink-soft); font-weight:600; }
+    .segment button.active { color:#fff; background:var(--green); }
+    .workspace { display:grid; grid-template-columns:minmax(300px, .88fr) minmax(520px, 1.55fr); gap:14px; align-items:start; }
+    .panel { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); min-width:0; }
+    .queue-panel { overflow:hidden; }
+    .panel-header { min-height:52px; padding:12px 15px; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .panel-title { margin:0; font-size:13px; font-weight:700; }
+    .panel-meta { color:var(--muted); font-size:10px; }
+    .queue-summary { display:flex; gap:7px; align-items:center; }
+    .small-select { border:0; color:var(--ink-soft); font-size:11px; background:transparent; }
+    .queue-list { max-height:calc(100vh - 322px); min-height:460px; overflow:auto; }
+    .property-row { display:block; width:100%; text-align:left; border:0; border-bottom:1px solid #edf1ee; background:#fff; padding:13px 15px; color:var(--ink); }
+    .property-row:hover { background:#f9fbf9; }
+    .property-row.active { background:#edf6f0; box-shadow:inset 3px 0 var(--green); }
+    .property-row-top { display:flex;align-items:flex-start;justify-content:space-between;gap:10px; }
+    .project-name { font-size:12px; font-weight:700; margin:0 0 3px; }
+    .unit-line { color:var(--ink-soft); font-size:11px; }
+    .row-location { margin-top:8px; display:flex; gap:6px; flex-wrap:wrap; color:var(--muted); font-size:10px; }
+    .row-bottom { margin-top:11px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .row-owner { display:flex;align-items:center;gap:7px;min-width:0; }
+    .mini-avatar { width:23px;height:23px;border-radius:50%;display:grid;place-items:center;background:#e7eee9;color:#426253;font-size:9px;font-weight:700;flex:none; }
+    .row-owner-text { min-width:0; }
+    .row-owner-name { display:block;font-size:10px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+    .row-owner-sub { display:block;font-size:9px;color:var(--muted); }
+    .pill { display:inline-flex;align-items:center;gap:4px;border-radius:99px;padding:4px 7px;font-size:9px;font-weight:700;white-space:nowrap; }
+    .pill-candidate { color:var(--gold);background:var(--gold-wash); }
+    .pill-confirmed { color:var(--green-dark);background:var(--green-wash); }
+    .pill-interest { color:#22634c;background:#e8f3ec; }
+    .pill-callback { color:#865d16;background:#f9f1dc; }
+    .pill-quiet { color:#65716b;background:#eef1ee; }
+    .type-dot { width:7px;height:7px;border-radius:50%;background:#68a68b;display:inline-block; }
+    .empty-state { padding:36px 20px;text-align:center;color:var(--muted);font-size:12px; }
+    .screen-toolbar { display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0; }
+    .toolbar-group { display:flex;align-items:center;gap:7px;flex-wrap:wrap; }
+    .screen-table-wrap { overflow:auto; }
+    .screen-table { width:100%;border-collapse:collapse;min-width:720px; }
+    .screen-table th { text-align:left;padding:10px 12px;background:#f8faf8;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line);white-space:nowrap; }
+    .screen-table td { padding:11px 12px;border-bottom:1px solid #edf1ee;font-size:11px;vertical-align:middle; }
+    .screen-table tr:last-child td { border-bottom:0; }
+    .screen-table tbody tr:hover { background:#f9fbf9; }
+    .table-primary { font-weight:700;font-size:11px; }
+    .table-secondary { color:var(--muted);font-size:9px;margin-top:3px; }
+    .table-actions { display:flex;gap:5px;justify-content:flex-end; }
+    .table-actions .button { padding:6px 8px;font-size:10px; }
+    .screen-metrics { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:16px 0; }
+    .screen-metric { background:#fff;border:1px solid var(--line);border-radius:7px;padding:13px 15px; }
+    .screen-metric .metric-value { margin-top:5px; }
+    .two-column { display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:14px; }
+    .coverage-bar { height:7px;border-radius:8px;background:#e9efeb;overflow:hidden;min-width:90px; }
+    .coverage-bar span { display:block;height:100%;background:var(--green);border-radius:8px; }
+    .setting-row { display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border-bottom:1px solid var(--line); }
+    .setting-row:last-child { border-bottom:0; }
+    .setting-main { font-size:12px;font-weight:700; }
+    .setting-description { font-size:10px;color:var(--muted);margin-top:3px; }
+    .toggle { appearance:none;width:34px;height:19px;border-radius:99px;background:#c9d2cc;position:relative;cursor:pointer;transition:.18s;flex:none; }
+    .toggle::after { content:"";position:absolute;width:15px;height:15px;left:2px;top:2px;background:#fff;border-radius:50%;transition:.18s;box-shadow:0 1px 3px #0002; }
+    .toggle:checked { background:var(--green); }
+    .toggle:checked::after { transform:translateX(15px); }
+    .coverage-bars { display:grid;gap:13px;padding:15px 16px; }
+    .coverage-item { display:grid;grid-template-columns:140px 1fr 44px;align-items:center;gap:10px;font-size:10px; }
+
+    .detail-panel { overflow:hidden; }
+    .detail-top { padding:17px 19px 15px; border-bottom:1px solid var(--line); }
+    .detail-crumb { color:var(--muted);font-size:10px;margin-bottom:9px;display:flex;gap:6px;align-items:center; }
+    .detail-title-row { display:flex;justify-content:space-between;align-items:flex-start;gap:12px; }
+    .detail-title { font:600 25px/1.1 "Newsreader",Georgia,serif;margin:0; }
+    .detail-unit { color:var(--ink-soft);font-size:12px;margin-top:5px; }
+    .detail-actions { display:flex;gap:6px; }
+    .type-label { display:inline-flex;align-items:center;gap:6px;background:#eff5f0;color:#3d6853;border-radius:4px;padding:4px 7px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em; }
+    .facts { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:17px;border-top:1px solid var(--line);padding-top:12px;gap:8px; }
+    .fact-label { display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px; }
+    .fact-value { font-size:11px;font-weight:600; }
+    .content-grid { display:grid;grid-template-columns:minmax(0,1.1fr) minmax(240px,.9fr); }
+    .content-section { padding:15px 18px;min-width:0; }
+    .content-section + .content-section { border-left:1px solid var(--line); }
+    .section-heading { display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:11px; }
+    .section-heading h2 { font-size:12px;margin:0;font-weight:700; }
+    .section-heading .subtle { color:var(--muted);font-size:10px; }
+    .contact-card { border:1px solid var(--line);border-radius:7px;padding:12px;background:var(--surface-2); }
+    .contact-head { display:flex;align-items:flex-start;justify-content:space-between;gap:8px; }
+    .contact-name { font-weight:700;font-size:13px; }
+    .contact-role { color:var(--muted);font-size:10px;margin-top:3px; }
+    .phone-line { display:flex;align-items:center;gap:7px;margin-top:12px;font-size:14px;font-weight:700;letter-spacing:.02em; }
+    .phone-line i, .phone-line svg { width:14px;height:14px;flex:none;color:var(--green); }
+    .phone-mask { font-variant-numeric:tabular-nums; }
+    .reveal-button { border:0;background:none;color:var(--green);padding:2px;display:inline-flex; }
+    .reveal-button i, .reveal-button svg { width:14px;height:14px; }
+    .source-line { display:flex;align-items:flex-start;gap:6px;color:var(--muted);font-size:10px;margin-top:9px; }
+    .source-line i, .source-line svg { width:13px;height:13px;flex:none;margin-top:1px; }
+    .match-actions { display:flex;gap:7px;margin-top:12px; }
+    .match-actions .button { flex:1; }
+    .source-note { font-size:9px;color:var(--muted);margin:9px 0 0; }
+    .intent-section { padding:0; }
+    .intent-head { padding:13px 18px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px; }
+    .intent-head h2 { font-size:12px;margin:0;font-weight:700; }
+    .intent-tabs { display:flex;gap:3px;padding:0 18px 12px;border-bottom:1px solid var(--line); }
+    .intent-tab { border:1px solid var(--line);background:#fff;color:var(--ink-soft);padding:6px 11px;border-radius:5px;font-size:10px;font-weight:700; }
+    .intent-tab.active { color:var(--green-dark);border-color:#bdd9c8;background:var(--green-wash); }
+    .intent-body { padding:14px 18px 17px; }
+    .intent-summary { display:flex;align-items:flex-start;justify-content:space-between;gap:12px; }
+    .intent-status { font-size:15px;font-weight:700; }
+    .intent-amount { text-align:right; }
+    .intent-amount strong { display:block;font-size:15px; }
+    .intent-amount span { color:var(--muted);font-size:9px; }
+    .intent-status-select { margin-top:11px;width:100%;border:1px solid var(--line);border-radius:5px;background:#fff;padding:8px 9px;font-size:11px;color:var(--ink); }
+    .call-log { margin-top:13px;border-top:1px solid var(--line);padding-top:11px; }
+    .call-log-title { display:flex;justify-content:space-between;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:8px; }
+    .call-entry { display:grid;grid-template-columns:20px 1fr auto;gap:8px;align-items:start;padding:7px 0;border-top:1px solid #eff2ef; }
+    .call-entry:first-of-type { border-top:0; }
+    .call-icon { width:19px;height:19px;border-radius:50%;background:#edf4ef;color:var(--green);display:grid;place-items:center; }
+    .call-icon i, .call-icon svg { width:11px;height:11px; }
+    .call-entry-main { font-size:10px;font-weight:600; }
+    .call-entry-note { color:var(--muted);font-size:9px;margin-top:2px; }
+    .call-entry-time { color:var(--muted);font-size:9px;white-space:nowrap; }
+    .call-actions { display:flex;gap:7px;margin-top:12px; }
+    .call-actions .button { flex:1; }
+    .listing-handoff { margin-top:12px;border-top:1px solid var(--line);padding-top:11px;display:flex;justify-content:space-between;gap:12px;align-items:center; }
+    .listing-handoff p { margin:0;color:var(--muted);font-size:9px; }
+    .registry-section { border-top:1px solid var(--line);padding:14px 18px 16px; }
+    .registry-list { display:grid;gap:0; }
+    .registry-row { display:grid;grid-template-columns:74px minmax(0,1fr) auto;align-items:center;gap:9px;padding:8px 0;border-top:1px solid #eff2ef; }
+    .registry-row:first-child { border-top:0; }
+    .registry-date { font-size:10px;font-weight:700; }
+    .registry-kind { color:var(--ink);font-size:10px;font-weight:600; }
+    .registry-number { color:var(--muted);font-size:9px;margin-top:2px; }
+    .registry-value { text-align:right;font-size:10px;font-weight:600;white-space:nowrap; }
+    .rera-strip { display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;background:#f2f6f3;border-radius:6px;margin-top:12px; }
+    .rera-label { color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.06em;font-weight:700; }
+    .rera-value { font-size:10px;font-weight:700;margin-top:2px; }
+    .toast { position:fixed;bottom:20px;right:22px;background:#173d34;color:#fff;border-radius:6px;padding:11px 14px;box-shadow:var(--shadow);font-size:12px;z-index:30;opacity:0;transform:translateY(8px);pointer-events:none;transition:.2s; }
+    .toast.show { opacity:1;transform:translateY(0); }
+    dialog { border:0;border-radius:9px;padding:0;width:min(440px,calc(100vw - 28px));box-shadow:0 28px 90px rgba(12,34,27,.25);color:var(--ink); }
+    dialog::backdrop { background:rgba(12,34,27,.38);backdrop-filter:blur(2px); }
+    .modal-head { padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center; }
+    .modal-head h2 { margin:0;font:600 20px "Newsreader",Georgia,serif; }
+    .modal-body { padding:17px 18px;display:grid;gap:12px; }
+    .field label { display:block;font-size:10px;font-weight:700;margin-bottom:5px; }
+    .field input,.field select,.field textarea { width:100%;border:1px solid var(--line);border-radius:5px;padding:8px 9px;background:#fff;color:var(--ink);font-size:12px; }
+    .field textarea { min-height:74px;resize:vertical; }
+    .modal-footer { border-top:1px solid var(--line);padding:12px 18px;display:flex;justify-content:flex-end;gap:7px; }
+    .mobile-top { display:none; }
+
+    @media (max-width: 1150px) {
+      .app-shell { grid-template-columns:68px minmax(0,1fr); }
+      .sidebar { padding-inline:9px; }
+      .brand { justify-content:center;padding-inline:0; }
+      .brand-copy,.workspace-switch span,.nav-label,.nav-item span,.team-copy { display:none; }
+      .workspace-switch { justify-content:center;padding:10px 0; }
+      .nav-item { justify-content:center;padding:11px 0; }
+      .nav-item .count { display:none; }
+      .team-card { justify-content:center;padding-inline:0; }
+      .workspace { grid-template-columns:minmax(270px,.8fr) minmax(480px,1.5fr); }
+      .page { padding-inline:20px; }
+      .topbar { padding-inline:20px; }
+    }
+    @media (max-width: 850px) {
+      .workspace { grid-template-columns:1fr; }
+      .queue-list { max-height:370px;min-height:0; }
+      .content-grid { grid-template-columns:1fr; }
+      .content-section + .content-section { border-left:0;border-top:1px solid var(--line); }
+      .detail-panel { margin-bottom:18px; }
+      .top-search { width:190px; }
+    }
+    @media (max-width: 600px) {
+      .app-shell { display:block; }
+      .sidebar { display:none; }
+      .mobile-top { display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#173d34;color:#fff; }
+      .mobile-brand { display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700; }
+      .mobile-brand .brand-mark { width:28px;height:28px;font-size:14px; }
+      .topbar { height:48px;padding:0 14px; }
+      .crumb { font-size:10px; }
+      .topbar-right { gap:7px; }
+      .topbar-right > .avatar { display:none; }
+      .top-search { width:min(34vw,130px); }
+      .top-search input { font-size:10px;height:31px; }
+      .top-search i, .top-search svg { top:8px; }
+      .topbar .icon-button { width:30px;height:30px; }
+      .page { padding:17px 12px 26px; }
+      .page-heading { align-items:flex-start;margin-bottom:14px; }
+      h1 { font-size:27px; }
+      .heading-note { max-width:240px;font-size:10px; }
+      .heading-actions .button span { display:none; }
+      .heading-actions .button { width:34px;height:34px;padding:0; }
+      .metric-strip { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .metric { padding:10px 11px;min-height:56px; }
+      .metric:nth-child(2) { border-right:0; }
+      .metric:nth-child(-n+2) { border-bottom:1px solid var(--line); }
+      .metric-value { font-size:17px; }
+      .metric-delta { display:none; }
+      .filters { gap:6px; }
+      .filter-search { flex-basis:100%;max-width:none; }
+      .select-control { flex:1;min-width:0;height:34px;font-size:10px; }
+      .segment { flex:1;justify-content:center; }
+      .segment button { flex:1;padding-inline:5px; }
+      .panel-header { padding:10px 12px; }
+      .property-row { padding:12px; }
+      .detail-top { padding:14px 13px 12px; }
+      .detail-title { font-size:23px; }
+      .detail-actions .button { width:32px;height:32px;padding:0; }
+      .detail-actions .button span { display:none; }
+      .facts { grid-template-columns:repeat(2,minmax(0,1fr));row-gap:10px; }
+      .content-section { padding:13px; }
+      .intent-head { padding-inline:13px; }
+      .intent-tabs { padding-inline:13px; }
+      .intent-body { padding:13px; }
+      .registry-section { padding-inline:13px; }
+      .registry-row { grid-template-columns:64px minmax(0,1fr) auto; }
+      .toast { left:12px;right:12px;bottom:12px;text-align:center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <div class="brand">
+        <div class="brand-mark">R</div>
+        <div class="brand-copy"><div class="brand-name">Realty Desk</div><div class="brand-sub">Hyderabad operations</div></div>
+      </div>
+      <button class="workspace-switch" type="button" title="Current workspace">
+        <span><small>WORKSPACE</small>Telangana SRO desk</span><i data-lucide="chevrons-up-down" aria-hidden="true"></i>
+      </button>
+      <div class="nav-label">Workspace</div>
+      <nav class="nav-list">
+        <button class="nav-item" type="button" data-screen-target="catalog"><i data-lucide="building-2"></i><span>Property catalog</span></button>
+        <button class="nav-item active" type="button" data-screen-target="outreach"><i data-lucide="phone-call"></i><span>Owner outreach</span><span class="count">18</span></button>
+        <button class="nav-item" type="button" data-screen-target="listings"><i data-lucide="list-checks"></i><span>Listings</span></button>
+        <button class="nav-item" type="button" data-screen-target="registry"><i data-lucide="files"></i><span>Registry explorer</span></button>
+      </nav>
+      <div class="nav-label" style="margin-top:24px">Data</div>
+      <nav class="nav-list">
+        <button class="nav-item" type="button" data-screen-target="coverage"><i data-lucide="chart-no-axes-column-increasing"></i><span>SRO coverage</span></button>
+        <button class="nav-item" type="button" data-screen-target="settings"><i data-lucide="settings-2"></i><span>Settings</span></button>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="team-card">
+        <div class="avatar">RN</div>
+        <div class="team-copy"><div class="team-name">R. Nair</div><div class="team-role">Telecaller · Serilingampally</div></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="mobile-top">
+        <div class="mobile-brand"><span class="brand-mark">R</span><span>Realty Desk</span></div>
+        <button class="icon-button" type="button" aria-label="Open navigation" id="menuButton"><i data-lucide="menu"></i></button>
+      </div>
+      <header class="topbar">
+        <div class="crumb"><span>Operations</span><i data-lucide="chevron-right"></i><strong id="screenCrumb">Owner outreach</strong></div>
+        <div class="topbar-right">
+          <label class="top-search"><i data-lucide="search"></i><input id="globalSearch" type="search" placeholder="Search properties" aria-label="Search properties"></label>
+          <button class="icon-button" type="button" aria-label="Notifications" title="Notifications"><i data-lucide="bell"></i></button>
+          <div class="avatar" aria-label="R. Nair">RN</div>
+        </div>
+      </header>
+
+      <div class="page app-screen active" id="screen-outreach" data-screen="outreach">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">Serilingampally SRO / Calling desk</p>
+            <h1>Owner outreach</h1>
+            <p class="heading-note">Property records linked to sourced contacts and owner intent.</p>
+          </div>
+          <div class="heading-actions">
+            <button class="button" id="refreshButton" type="button" title="Refresh queue"><i data-lucide="refresh-cw"></i><span>Refresh</span></button>
+            <button class="button button-primary" id="addContactButton" type="button"><i data-lucide="user-round-plus"></i><span>Add contact</span></button>
+          </div>
+        </div>
+
+        <section class="metric-strip" aria-label="Outreach summary">
+          <div class="metric"><div><div class="metric-label">Properties in SRO</div><div class="metric-value">2,418</div></div><div class="metric-delta">+36 today</div></div>
+          <div class="metric"><div><div class="metric-label">Needs contact review</div><div class="metric-value">18</div></div><div class="metric-delta">6 new</div></div>
+          <div class="metric"><div><div class="metric-label">Callbacks due</div><div class="metric-value">7</div></div><div class="metric-delta">2 overdue</div></div>
+          <div class="metric"><div><div class="metric-label">Intent confirmed</div><div class="metric-value">42</div></div><div class="metric-delta">This month</div></div>
+        </section>
+
+        <section class="filters" aria-label="Property filters">
+          <label class="filter-search"><i data-lucide="search"></i><input id="queueSearch" type="search" placeholder="Flat, project, survey no. or owner" aria-label="Search outreach queue"></label>
+          <select class="select-control" id="typeFilter" aria-label="Filter property type">
+            <option value="all">All property types</option><option value="Apartment">Apartments</option><option value="Villa">Villas</option><option value="Open plot">Open plots</option>
+          </select>
+          <select class="select-control" id="sroFilter" aria-label="Filter SRO">
+            <option value="Serilingampally">Serilingampally SRO</option><option value="All SROs">All SROs</option>
+          </select>
+          <div class="segment" role="group" aria-label="Filter by intent">
+            <button class="active" type="button" data-intent-filter="all">All intents</button>
+            <button type="button" data-intent-filter="sale">Sale</button>
+            <button type="button" data-intent-filter="rent">Rent</button>
+          </div>
+        </section>
+
+        <section class="workspace" aria-label="Outreach workspace">
+          <section class="panel queue-panel" aria-label="Property queue">
+            <div class="panel-header">
+              <div><h2 class="panel-title">Property queue <span class="panel-meta" id="visibleCount">18 open</span></h2></div>
+              <div class="queue-summary"><select class="small-select" id="sortFilter" aria-label="Sort queue"><option value="priority">Priority</option><option value="recent">Recently added</option><option value="project">Project</option></select><button class="icon-button" type="button" title="Queue options" aria-label="Queue options"><i data-lucide="sliders-horizontal"></i></button></div>
+            </div>
+            <div class="queue-list" id="queueList"></div>
+          </section>
+
+          <section class="panel detail-panel" aria-label="Selected property details">
+            <div class="detail-top">
+              <div class="detail-crumb"><span>Property record</span><i data-lucide="chevron-right"></i><span id="detailSro">Serilingampally SRO</span><i data-lucide="chevron-right"></i><span id="detailId">NLG-1522-002102</span></div>
+              <div class="detail-title-row">
+                <div>
+                  <span class="type-label"><span class="type-dot"></span><span id="detailType">Apartment</span></span>
+                  <h2 class="detail-title" id="detailProject">Aparna Sarovar Zicon</h2>
+                  <div class="detail-unit" id="detailUnit">F Block · Flat 2102</div>
+                </div>
+                <div class="detail-actions">
+                  <button class="button" id="registryButton" type="button" title="Open registration history"><i data-lucide="files"></i><span>Registry</span></button>
+                  <button class="icon-button" id="moreButton" type="button" title="More property actions" aria-label="More property actions"><i data-lucide="ellipsis"></i></button>
+                </div>
+              </div>
+              <div class="facts">
+                <div><span class="fact-label">Village</span><span class="fact-value" id="detailVillage">Nallagandla</span></div>
+                <div><span class="fact-label">Survey</span><span class="fact-value" id="detailSurvey">264/P · 265</span></div>
+                <div><span class="fact-label">Built-up</span><span class="fact-value" id="detailBuilt">1,825 sq ft</span></div>
+                <div><span class="fact-label">UDS</span><span class="fact-value" id="detailUds">41 sq yd</span></div>
+              </div>
+            </div>
+
+            <div class="content-grid">
+              <section class="content-section" aria-label="Owner contact">
+                <div class="section-heading"><h2>Contact match</h2><span id="matchStatus" class="pill pill-candidate">Candidate</span></div>
+                <div class="contact-card">
+                  <div class="contact-head">
+                    <div><div class="contact-name" id="ownerName">S. Rao</div><div class="contact-role" id="ownerRole">SRO party · Claimant (CL)</div></div>
+                    <button class="icon-button" id="contactMenu" type="button" title="Contact options" aria-label="Contact options"><i data-lucide="ellipsis"></i></button>
+                  </div>
+                  <div class="phone-line"><i data-lucide="phone" aria-hidden="true"></i><span class="phone-mask" id="phoneNumber">+91 98••• 3814</span><button class="reveal-button" id="revealPhone" type="button" title="Reveal phone number" aria-label="Reveal phone number"><i data-lucide="eye"></i></button></div>
+                  <div class="source-line"><i data-lucide="database"></i><span id="contactSource">Broker referral · added 05 Oct 2026 · unverified source</span></div>
+                  <p class="source-note" id="contactNote">Match confidence 0.78 · phone belongs to a candidate contact until verified.</p>
+                  <div class="match-actions">
+                    <button class="button button-soft" id="confirmMatch" type="button"><i data-lucide="badge-check"></i>Confirm match</button>
+                    <button class="button button-danger" id="rejectMatch" type="button"><i data-lucide="x"></i>Reject</button>
+                  </div>
+                </div>
+              </section>
+
+              <section class="intent-section" aria-label="Owner intent tracks">
+                <div class="intent-head"><h2>Owner intent</h2><span class="panel-meta">Sale + rent tracks</span></div>
+                <div class="intent-tabs" role="tablist" aria-label="Sale and rent intent tracks">
+                  <button class="intent-tab active" id="saleTab" type="button" role="tab" aria-selected="true" data-intent="sale">Sale intent</button>
+                  <button class="intent-tab" id="rentTab" type="button" role="tab" aria-selected="false" data-intent="rent">Rent intent</button>
+                </div>
+                <div class="intent-body">
+                  <div class="intent-summary"><div><div class="fact-label" id="intentKindLabel">SALE TRACK</div><div class="intent-status" id="intentStatusText">Interested</div></div><div class="intent-amount"><strong id="intentAmount">₹1.50 Cr</strong><span id="intentAmountLabel">Expected sale amount</span></div></div>
+                  <select class="intent-status-select" id="intentStatusSelect" aria-label="Update intent status"></select>
+                  <div class="call-log">
+                    <div class="call-log-title"><span>Call history</span><span id="callCount">2 attempts</span></div>
+                    <div id="callEntries"></div>
+                  </div>
+                  <div class="call-actions">
+                    <button class="button button-primary" id="logCallButton" type="button"><i data-lucide="phone-call"></i>Log call</button>
+                    <button class="button" id="markInterestedButton" type="button"><i data-lucide="circle-check"></i>Confirm intent</button>
+                  </div>
+                  <div class="listing-handoff">
+                    <p id="listingHandoffText">Create a listing after offer details are verified.</p>
+                    <button class="button button-soft" id="createListingButton" type="button"><i data-lucide="list-plus"></i>Listing</button>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <section class="registry-section" aria-label="Registration history and RERA">
+              <div class="section-heading"><h2>Registration history</h2><button class="button" id="allDocumentsButton" type="button"><i data-lucide="arrow-up-right"></i>All documents</button></div>
+              <div class="registry-list" id="registryList"></div>
+              <div class="rera-strip"><div><div class="rera-label">Project RERA</div><div class="rera-value" id="reraValue">P02400001234 · Active</div></div><button class="button" id="reraButton" type="button"><i data-lucide="external-link"></i>View registration</button></div>
+            </section>
+          </section>
+        </section>
+      </div>
+
+      <div class="page app-screen" id="screen-catalog" data-screen="catalog">
+        <div class="page-heading"><div><p class="eyebrow">Inventory / SRO capture</p><h1>Property catalog</h1><p class="heading-note">Canonical flats, villas and open plots discovered from the selected SRO.</p></div><div class="heading-actions"><button class="button" type="button" id="catalogImport"><i data-lucide="file-up"></i><span>Import SRO file</span></button><button class="button button-primary" type="button" id="catalogAdd"><i data-lucide="plus"></i><span>Add property</span></button></div></div>
+        <div class="screen-metrics">
+          <div class="screen-metric"><div class="metric-label">SRO properties</div><div class="metric-value">2,418</div></div>
+          <div class="screen-metric"><div class="metric-label">Apartments / flats</div><div class="metric-value">1,584</div></div>
+          <div class="screen-metric"><div class="metric-label">Villas</div><div class="metric-value">312</div></div>
+          <div class="screen-metric"><div class="metric-label">Plots / other</div><div class="metric-value">522</div></div>
+        </div>
+        <div class="screen-toolbar">
+          <div class="toolbar-group"><label class="filter-search"><i data-lucide="search"></i><input id="catalogSearch" type="search" placeholder="Project, flat, plot or survey" aria-label="Search property catalog"></label><select class="select-control" id="catalogType"><option value="all">All property types</option><option>Apartment</option><option>Villa</option><option>Open plot</option></select><select class="select-control"><option>Serilingampally SRO</option><option>All SROs</option></select></div>
+          <span class="panel-meta">Catalog includes source properties, not only active listings</span>
+        </div>
+        <section class="panel"><div class="panel-header"><div><h2 class="panel-title">Properties <span class="panel-meta" id="catalogCount"></span></h2></div><button class="button" type="button" id="catalogExport"><i data-lucide="download"></i>Export</button></div><div class="screen-table-wrap"><table class="screen-table"><thead><tr><th>Property / Project</th><th>Type</th><th>Location</th><th>Survey / Unit</th><th>Registry</th><th>Contact</th><th></th></tr></thead><tbody id="catalogTableBody"></tbody></table></div></section>
+      </div>
+
+      <div class="page app-screen" id="screen-listings" data-screen="listings">
+        <div class="page-heading"><div><p class="eyebrow">Verified offers / Inventory</p><h1>Listings</h1><p class="heading-note">Offers are separate from SRO history and owner intent.</p></div><div class="heading-actions"><button class="button" type="button" id="listingFiltersButton"><i data-lucide="sliders-horizontal"></i><span>Filters</span></button><button class="button button-primary" type="button" id="listingCreateButton"><i data-lucide="plus"></i><span>New listing</span></button></div></div>
+        <div class="screen-metrics"><div class="screen-metric"><div class="metric-label">Active resale</div><div class="metric-value">64</div></div><div class="screen-metric"><div class="metric-label">Active rental</div><div class="metric-value">38</div></div><div class="screen-metric"><div class="metric-label">Drafts</div><div class="metric-value">12</div></div><div class="screen-metric"><div class="metric-label">Updated this week</div><div class="metric-value">21</div></div></div>
+        <div class="screen-toolbar"><div class="toolbar-group"><label class="filter-search"><i data-lucide="search"></i><input id="listingSearch" type="search" placeholder="Property, project or owner" aria-label="Search listings"></label><div class="segment" role="group" aria-label="Listing type filter"><button class="active" data-listing-type="all" type="button">All</button><button data-listing-type="sale" type="button">Resale</button><button data-listing-type="rent" type="button">Rental</button></div></div><select class="select-control" id="listingStatusFilter"><option value="active">Active listings</option><option value="draft">Draft listings</option><option value="all">All statuses</option></select></div>
+        <section class="panel"><div class="panel-header"><h2 class="panel-title">Verified offers <span class="panel-meta" id="listingCount"></span></h2><span class="panel-meta">Sample records</span></div><div class="screen-table-wrap"><table class="screen-table"><thead><tr><th>Property</th><th>Offer</th><th>Asking amount</th><th>Availability</th><th>Owner match</th><th>Status</th><th></th></tr></thead><tbody id="listingTableBody"></tbody></table></div></section>
+      </div>
+
+      <div class="page app-screen" id="screen-registry" data-screen="registry">
+        <div class="page-heading"><div><p class="eyebrow">Legal source / SRO documents</p><h1>Registry explorer</h1><p class="heading-note">Search every imported document and schedule; property matches remain reviewable.</p></div><div class="heading-actions"><button class="button" id="registryExport"><i data-lucide="download"></i><span>Export results</span></button></div></div>
+        <div class="screen-toolbar"><div class="toolbar-group"><label class="filter-search"><i data-lucide="search"></i><input id="registrySearch" type="search" placeholder="Document no., party, property or survey" aria-label="Search registry"></label><select class="select-control" id="registryType"><option value="all">All document types</option><option value="Sale deed">Sale deeds</option><option value="Mortgage">Mortgage / release</option><option value="Other">Other instruments</option></select><select class="select-control"><option>Serilingampally SRO</option><option>All SROs</option></select></div><span class="panel-meta">Source: SRO registration records</span></div>
+        <section class="panel"><div class="panel-header"><h2 class="panel-title">Registration documents <span class="panel-meta" id="registryCount"></span></h2><span class="panel-meta">Sorted by registration date</span></div><div class="screen-table-wrap"><table class="screen-table"><thead><tr><th>Registered</th><th>Document</th><th>Property / Schedule</th><th>Parties / roles</th><th>Recorded value</th><th>Property match</th><th></th></tr></thead><tbody id="registryTableBody"></tbody></table></div></section>
+      </div>
+
+      <div class="page app-screen" id="screen-coverage" data-screen="coverage">
+        <div class="page-heading"><div><p class="eyebrow">Ingestion / Data quality</p><h1>SRO coverage</h1><p class="heading-note">Track imported history, daily fetches, validation and promoted property matches.</p></div><div class="heading-actions"><button class="button" id="coverageRefresh"><i data-lucide="refresh-cw"></i><span>Refresh coverage</span></button></div></div>
+        <div class="screen-toolbar"><div class="toolbar-group"><select class="select-control"><option>Telangana</option><option>Hyderabad region</option></select><select class="select-control"><option>All configured SROs</option><option>Serilingampally</option></select><select class="select-control"><option>Historical + daily</option><option>Historical backfill</option><option>Daily imports</option></select></div><span class="panel-meta">2010 – 05 Oct 2026</span></div>
+        <div class="screen-metrics"><div class="screen-metric"><div class="metric-label">Configured SROs</div><div class="metric-value">14</div></div><div class="screen-metric"><div class="metric-label">Source observations</div><div class="metric-value">1.28M</div></div><div class="screen-metric"><div class="metric-label">Promoted</div><div class="metric-value">94.6%</div></div><div class="screen-metric"><div class="metric-label">Needs review</div><div class="metric-value">6,842</div></div></div>
+        <div class="two-column"><section class="panel"><div class="panel-header"><h2 class="panel-title">Coverage by SRO</h2><span class="panel-meta">Registration history span</span></div><div class="coverage-bars" id="coverageBars"></div></section><section class="panel"><div class="panel-header"><h2 class="panel-title">Recent import runs</h2><span class="panel-meta">Latest first</span></div><div class="screen-table-wrap"><table class="screen-table"><thead><tr><th>SRO / Mode</th><th>Started</th><th>Rows</th><th>Status</th></tr></thead><tbody id="runTableBody"></tbody></table></div></section></div>
+        <p class="panel-meta" style="margin-top:12px">Coverage describes records fetched by this system; it does not assert that the source registry is complete.</p>
+      </div>
+
+      <div class="page app-screen" id="screen-settings" data-screen="settings">
+        <div class="page-heading"><div><p class="eyebrow">Workspace / Configuration</p><h1>Settings</h1><p class="heading-note">Manage source coverage, calling roles, and assigned SRO scope.</p></div><div class="heading-actions"><button class="button button-primary" type="button" id="settingsSave"><i data-lucide="save"></i><span>Save changes</span></button></div></div>
+        <div class="two-column"><div>
+          <section class="panel"><div class="panel-header"><div><h2 class="panel-title">Data sources</h2><span class="panel-meta">Source ids remain separate across systems</span></div><button class="button" type="button" id="addSource"><i data-lucide="plus"></i>Add source</button></div>
+            <div class="setting-row"><div><div class="setting-main">Telangana SRO</div><div class="setting-description">Historical backfill and daily registration feed · 14 SROs</div></div><input class="toggle" type="checkbox" checked aria-label="Enable Telangana SRO"></div>
+            <div class="setting-row"><div><div class="setting-main">Telangana RERA</div><div class="setting-description">Project and phase registration snapshots</div></div><input class="toggle" type="checkbox" checked aria-label="Enable Telangana RERA"></div>
+            <div class="setting-row"><div><div class="setting-main">External contact sources</div><div class="setting-description">Manual/broker referrals · contact numbers stay candidate until reviewed</div></div><input class="toggle" type="checkbox" checked aria-label="Enable external contact sources"></div>
+          </section>
+          <section class="panel" style="margin-top:14px"><div class="panel-header"><div><h2 class="panel-title">Import policy</h2><span class="panel-meta">Historical + daily ingestion</span></div></div><div class="setting-row"><div><div class="setting-main">Default backfill start</div><div class="setting-description">SRO history query start year</div></div><select class="select-control"><option>2010</option><option>2015</option><option>2020</option></select></div><div class="setting-row"><div><div class="setting-main">Require review for property matches</div><div class="setting-description">Ambiguous schedule links remain pending</div></div><input class="toggle" type="checkbox" checked aria-label="Require review for property matches"></div></section>
+        </div><div>
+          <section class="panel"><div class="panel-header"><div><h2 class="panel-title">Team access</h2><span class="panel-meta">Role-based database access</span></div><button class="button" type="button" id="inviteUser"><i data-lucide="user-plus"></i>Invite user</button></div><div class="screen-table-wrap"><table class="screen-table"><thead><tr><th>User</th><th>Role</th><th>Scope</th></tr></thead><tbody><tr><td><span class="table-primary">R. Nair</span><div class="table-secondary">r.nair@realtydesk.example</div></td><td>Telecaller</td><td>Serilingampally</td></tr><tr><td><span class="table-primary">P. Shah</span><div class="table-secondary">p.shah@realtydesk.example</div></td><td>Sales</td><td>My Home Avatar</td></tr><tr><td><span class="table-primary">Partner desk 04</span><div class="table-secondary">Limited access</div></td><td>Third party</td><td>Assigned properties</td></tr></tbody></table></div></section>
+          <section class="panel" style="margin-top:14px"><div class="panel-header"><div><h2 class="panel-title">Outreach rules</h2><span class="panel-meta">Owner verification and listing handoff</span></div></div><div class="setting-row"><div><div class="setting-main">Verify owner before confirming intent</div><div class="setting-description">Candidate phones cannot be marked interested until verified</div></div><input class="toggle" type="checkbox" checked aria-label="Require owner verification"></div><div class="setting-row"><div><div class="setting-main">Require verified offer before publishing</div><div class="setting-description">Call outcomes do not create active listings</div></div><input class="toggle" type="checkbox" checked aria-label="Require verified offer"></div></section>
+        </div></div>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="mobileNavDialog" aria-labelledby="mobileNavTitle">
+    <div class="modal-head"><h2 id="mobileNavTitle">Workspace</h2><button class="icon-button" type="button" data-close="mobileNavDialog" aria-label="Close navigation"><i data-lucide="x"></i></button></div>
+    <nav class="modal-body nav-list" aria-label="Mobile workspace navigation">
+      <button class="nav-item" type="button" data-screen-target="catalog"><i data-lucide="building-2"></i><span>Property catalog</span></button>
+      <button class="nav-item active" type="button" data-screen-target="outreach"><i data-lucide="phone-call"></i><span>Owner outreach</span></button>
+      <button class="nav-item" type="button" data-screen-target="listings"><i data-lucide="list-checks"></i><span>Listings</span></button>
+      <button class="nav-item" type="button" data-screen-target="registry"><i data-lucide="files"></i><span>Registry explorer</span></button>
+      <button class="nav-item" type="button" data-screen-target="coverage"><i data-lucide="chart-no-axes-column-increasing"></i><span>SRO coverage</span></button>
+      <button class="nav-item" type="button" data-screen-target="settings"><i data-lucide="settings-2"></i><span>Settings</span></button>
+    </nav>
+  </dialog>
+
+  <dialog id="callDialog" aria-labelledby="callDialogTitle">
+    <form method="dialog" id="callForm">
+      <div class="modal-head"><h2 id="callDialogTitle">Log call attempt</h2><button class="icon-button" type="button" data-close="callDialog" aria-label="Close dialog"><i data-lucide="x"></i></button></div>
+      <div class="modal-body">
+        <div class="field"><label for="callOutcome">Call outcome</label><select id="callOutcome" required><option value="connected_interested">Connected · interested</option><option value="connected_not_interested">Connected · not interested</option><option value="callback_requested">Callback requested</option><option value="no_answer">No answer</option><option value="busy">Busy</option><option value="wrong_number">Wrong number</option><option value="wrong_person">Wrong person</option><option value="opted_out">Opted out</option></select></div>
+        <div class="field" id="identityVerificationField" hidden><label><input id="identityVerified" type="checkbox"> Owner identity verified on this call</label></div>
+        <div class="field"><label for="callNotes">Call notes</label><textarea id="callNotes" placeholder="Add a concise call note"></textarea></div>
+        <div class="field" id="callbackField" hidden><label for="callbackDate">Callback date</label><input id="callbackDate" type="date"></div>
+      </div>
+      <div class="modal-footer"><button class="button" type="button" data-close="callDialog">Cancel</button><button class="button button-primary" id="saveCall" type="submit">Save attempt</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="listingDialog" aria-labelledby="listingDialogTitle">
+    <form method="dialog" id="listingForm">
+      <div class="modal-head"><h2 id="listingDialogTitle">Create verified listing</h2><button class="icon-button" type="button" data-close="listingDialog" aria-label="Close dialog"><i data-lucide="x"></i></button></div>
+      <div class="modal-body">
+        <div class="field"><label for="listingType">Listing type</label><select id="listingType"><option value="sale">For sale</option><option value="rent">For rent</option></select></div>
+        <div class="field"><label for="listingPrice">Verified offer amount (INR)</label><input id="listingPrice" type="number" min="1" placeholder="e.g. 15000000" required></div>
+        <div class="field" id="rentPeriodField" hidden><label for="rentPeriod">Rent period</label><select id="rentPeriod"><option value="month">Per month</option><option value="week">Per week</option><option value="year">Per year</option></select></div>
+        <div class="field"><label for="listingAvailability">Available from</label><input id="listingAvailability" type="date"></div>
+      </div>
+      <div class="modal-footer"><button class="button" type="button" data-close="listingDialog">Cancel</button><button class="button button-primary" type="submit">Save listing</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="contactDialog" aria-labelledby="contactDialogTitle">
+    <form method="dialog" id="contactForm">
+      <div class="modal-head"><h2 id="contactDialogTitle">Add sourced contact</h2><button class="icon-button" type="button" data-close="contactDialog" aria-label="Close dialog"><i data-lucide="x"></i></button></div>
+      <div class="modal-body">
+        <div class="field"><label for="contactProperty">Property</label><select id="contactProperty"></select></div>
+        <div class="field"><label for="contactPhone">Phone number</label><input id="contactPhone" type="tel" placeholder="+91 98XXX XXXXX" required></div>
+        <div class="field"><label for="contactSourceInput">Source</label><input id="contactSourceInput" type="text" placeholder="e.g. Broker referral, public directory" required></div>
+        <div class="field"><label for="contactOwnerInput">Possible owner / party name</label><input id="contactOwnerInput" type="text" placeholder="Leave blank if unknown"></div>
+      </div>
+      <div class="modal-footer"><button class="button" type="button" data-close="contactDialog">Cancel</button><button class="button button-primary" type="submit">Add candidate</button></div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const statusOptions = [
+      ['queued', 'Queued'], ['contacting', 'Contacting'], ['interested', 'Interested'],
+      ['not_interested', 'Not interested'], ['callback_requested', 'Callback requested'],
+      ['unreachable', 'Unreachable'], ['wrong_number', 'Wrong number'], ['opted_out', 'Opted out'],
+    ];
+
+    const properties = [
+      {
+        id: 'NLG-1522-002102', project: 'Aparna Sarovar Zicon', unit: 'F Block · Flat 2102', type: 'Apartment', village: 'Nallagandla', survey: '264/P · 265', built: '1,825 sq ft', uds: '41 sq yd', addedAt: '2026-10-05T10:00:00Z',
+        owner: 'S. Rao', initials: 'SR', role: 'SRO party · Claimant (CL)', phone: '+91 98765 43814', masked: '+91 98••• 3814', source: 'Broker referral · added 05 Oct 2026 · unverified source', confidence: '0.78', match: 'candidate', rera: 'P02400001234 · Active', docs: [
+          { date: '01 Oct 2026', kind: 'Sale deed', no: 'Document 12/2026', value: '₹1.50 Cr' },
+          { date: '18 Aug 2024', kind: 'Deposit of title deeds', no: 'Document 188/2024', value: 'Mortgage' },
+          { date: '14 Jun 2018', kind: 'Sale deed', no: 'Document 44/2018', value: '₹82 L' },
+        ], intents: {
+          sale: { status: 'contacting', amount: 'Not confirmed', amountLabel: 'Expected sale amount', calls: [
+            { outcome: 'No answer', note: 'First attempt to candidate number', time: 'Today · 10:42 AM' },
+          ] },
+          rent: { status: 'queued', amount: 'Not confirmed', amountLabel: 'Expected monthly rent', calls: [] },
+        },
+      },
+      {
+        id: 'MHA-1522-011003', project: 'My Home Avatar', unit: 'Block 1 · Flat 1003', type: 'Apartment', village: 'Puppalguda', survey: '263 · 264 · 265', built: '1,314 sq ft', uds: '33.41 sq yd', addedAt: '2026-10-04T15:10:00Z',
+        owner: 'A. Mehta', initials: 'AM', role: 'SRO party · Claimant (CL)', phone: '+91 98480 62017', masked: '+91 98••• 2017', source: 'Resident referral · added 04 Oct 2026', confidence: '0.91', match: 'confirmed', rera: 'P02400002218 · Active', docs: [
+          { date: '20 Jan 2026', kind: 'Sale deed', no: 'Document 665/2026', value: '₹1.53 Cr' },
+          { date: '12 May 2022', kind: 'Deposit of title deeds', no: 'Document 5852/2022', value: 'Mortgage' },
+          { date: '20 Jan 2020', kind: 'Sale deed', no: 'Document 665/2020', value: '₹56.9 L' },
+        ], intents: {
+          sale: { status: 'callback_requested', amount: 'Not confirmed', amountLabel: 'Expected sale amount', calls: [{ outcome: 'Callback requested', note: 'Checking with co-owner', time: 'Yesterday · 3:10 PM' }] },
+          rent: { status: 'not_interested', amount: 'Not interested', amountLabel: 'Expected monthly rent', calls: [{ outcome: 'Connected · not interested', note: 'Currently owner occupied', time: '02 Oct · 1:44 PM' }] },
+        },
+      },
+      {
+        id: 'NLG-1522-V014', project: 'Green Crest Villas', unit: 'Villa 14 · Phase 2', type: 'Villa', village: 'Nallagandla', survey: '271 · 272/P', built: '2,460 sq ft', uds: '118 sq yd', addedAt: '2026-10-04T09:20:00Z',
+        owner: 'K. Reddy', initials: 'KR', role: 'Source match · pending party review', phone: '+91 99080 31672', masked: '+91 99••• 1672', source: 'Public directory · added 04 Oct 2026', confidence: '0.62', match: 'candidate', rera: 'P02400003152 · Active', docs: [
+          { date: '18 Sep 2026', kind: 'Sale deed', no: 'Document 16438/2026', value: '₹1.22 Cr' },
+          { date: '05 May 2021', kind: 'Development agreement', no: 'Document 890/2021', value: 'Agreement' },
+        ], intents: {
+          sale: { status: 'queued', amount: 'Not confirmed', amountLabel: 'Expected sale amount', calls: [] },
+          rent: { status: 'queued', amount: 'Not confirmed', amountLabel: 'Expected monthly rent', calls: [] },
+        },
+      },
+      {
+        id: 'NLG-1522-PL038', project: 'Nallagandla County', unit: 'Open Plot · 38', type: 'Open plot', village: 'Nallagandla', survey: '264/P', built: '—', uds: '320 sq yd', addedAt: '2026-10-03T12:00:00Z',
+        owner: 'M. Srinivas', initials: 'MS', role: 'SRO party · Claimant (CL)', phone: '+91 98490 22158', masked: '+91 98••• 2158', source: 'Referral · added 03 Oct 2026', confidence: '0.86', match: 'confirmed', rera: 'P02400004108 · Active', docs: [
+          { date: '03 Mar 2026', kind: 'Sale deed', no: 'Document 449/2026', value: '₹72 L' },
+          { date: '16 Nov 2017', kind: 'Gift deed', no: 'Document 118/2017', value: 'Gift' },
+        ], intents: {
+          sale: { status: 'contacting', amount: 'Not confirmed', amountLabel: 'Expected sale amount', calls: [{ outcome: 'Busy', note: 'Try again later', time: 'Today · 9:20 AM' }] },
+          rent: { status: 'queued', amount: 'Not confirmed', amountLabel: 'Expected monthly rent', calls: [] },
+        },
+      },
+    ];
+
+    const listings = [
+      { id: 'L-2048', propertyId: 'MHA-1522-011003', type: 'sale', price: 15300000, period: '', availability: 'Immediate', status: 'active', source: 'Owner verified' },
+      { id: 'L-2041', propertyId: 'NLG-1522-V014', type: 'rent', price: 68000, period: 'month', availability: '01 Nov 2026', status: 'active', source: 'Owner verified' },
+      { id: 'L-2032', propertyId: 'NLG-1522-PL038', type: 'sale', price: 7200000, period: '', availability: '15 Oct 2026', status: 'draft', source: 'Offer review' },
+      { id: 'L-2018', propertyId: 'NLG-1522-002102', type: 'rent', price: 52000, period: 'month', availability: '—', status: 'closed', source: 'Listing expired' },
+    ];
+
+    const coverageData = [
+      { name: 'Serilingampally', percent: 92, records: '182,420', span: '2010–2026', promoted: '94.6%' },
+      { name: 'Rajendranagar', percent: 78, records: '126,880', span: '2012–2026', promoted: '91.2%' },
+      { name: 'Shaikpet', percent: 71, records: '98,340', span: '2011–2026', promoted: '89.8%' },
+      { name: 'Balanagar', percent: 64, records: '87,610', span: '2014–2026', promoted: '96.1%' },
+    ];
+
+    const importRunData = [
+      { office: 'Serilingampally · Daily', started: 'Today · 06:05', rows: '1,284', status: 'Completed' },
+      { office: 'Rajendranagar · Daily', started: 'Today · 05:48', rows: '862', status: 'Completed' },
+      { office: 'Serilingampally · Backfill', started: 'Yesterday · 23:10', rows: '8,420', status: 'Review needed' },
+    ];
+
+    let selectedId = properties[0].id;
+    let activeIntent = 'sale';
+    let intentFilter = 'all';
+    let activeScreen = 'outreach';
+    let listingTypeFilter = 'all';
+    let revealNumber = false;
+    let toastTimer;
+
+    const queueList = document.getElementById('queueList');
+    const typeFilter = document.getElementById('typeFilter');
+    const queueSearch = document.getElementById('queueSearch');
+    const globalSearch = document.getElementById('globalSearch');
+    const toast = document.getElementById('toast');
+
+    function iconRefresh() {
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2700);
+    }
+
+    function statusLabel(status) {
+      return statusOptions.find(([value]) => value === status)?.[1] || status;
+    }
+
+    function statusClass(status) {
+      if (status === 'candidate') return 'pill-candidate';
+      if (status === 'confirmed' || status === 'interested') return 'pill-confirmed';
+      if (status === 'callback_requested') return 'pill-callback';
+      return 'pill-quiet';
+    }
+
+    function activeProperty() {
+      return properties.find((property) => property.id === selectedId) || properties[0];
+    }
+
+    function currentIntent(property = activeProperty()) {
+      return property.intents[activeIntent];
+    }
+
+    function filteredProperties() {
+      const query = `${queueSearch.value} ${globalSearch.value}`.trim().toLowerCase();
+      const type = typeFilter.value;
+      const filtered = properties.filter((property) => {
+        const queryMatch = !query || `${property.project} ${property.unit} ${property.village} ${property.survey} ${property.owner} ${property.id}`.toLowerCase().includes(query);
+        const typeMatch = type === 'all' || property.type === type;
+        const intentMatch = intentFilter === 'all' || property.intents[intentFilter].status !== 'queued';
+        return queryMatch && typeMatch && intentMatch;
+      });
+      const sortMode = document.getElementById('sortFilter').value;
+      if (sortMode === 'project') return filtered.sort((a, b) => a.project.localeCompare(b.project));
+      if (sortMode === 'recent') return filtered.sort((a, b) => Date.parse(b.addedAt) - Date.parse(a.addedAt));
+      const priority = { callback_requested: 0, contacting: 1, unreachable: 2, queued: 3, interested: 4, not_interested: 5, wrong_number: 6, opted_out: 7, converted: 8 };
+      return filtered.sort((a, b) => priority[a.intents.sale.status] - priority[b.intents.sale.status]);
+    }
+
+    function renderQueue() {
+      const filtered = filteredProperties();
+      document.getElementById('visibleCount').textContent = `${filtered.length} shown`;
+      if (!filtered.some((property) => property.id === selectedId) && filtered.length) selectedId = filtered[0].id;
+      if (!filtered.length) {
+        queueList.innerHTML = '<div class="empty-state">No properties match these filters.</div>';
+        renderDetail();
+        return;
+      }
+      queueList.innerHTML = filtered.map((property) => `
+        <button class="property-row ${property.id === selectedId ? 'active' : ''}" type="button" data-property-id="${property.id}">
+          <div class="property-row-top"><div><div class="project-name">${property.project}</div><div class="unit-line">${property.unit}</div></div><span class="pill ${statusClass(property.match)}">${property.match === 'confirmed' ? 'Verified' : 'Review match'}</span></div>
+          <div class="row-location"><span>${property.type}</span><span>·</span><span>${property.village}</span><span>·</span><span>Survey ${property.survey}</span></div>
+          <div class="row-bottom"><div class="row-owner"><span class="mini-avatar">${property.initials}</span><span class="row-owner-text"><span class="row-owner-name">${property.owner}</span><span class="row-owner-sub">${property.intents.sale.status === 'interested' ? 'Sale interest confirmed' : statusLabel(property.intents.sale.status)}</span></span></div><span class="panel-meta">${property.docs.length} docs</span></div>
+        </button>`).join('');
+      queueList.querySelectorAll('[data-property-id]').forEach((button) => button.addEventListener('click', () => {
+        selectedId = button.dataset.propertyId;
+        revealNumber = false;
+        renderQueue();
+      }));
+      renderDetail();
+    }
+
+    function renderDetail() {
+      const property = activeProperty();
+      document.getElementById('detailId').textContent = property.id;
+      document.getElementById('detailProject').textContent = property.project;
+      document.getElementById('detailUnit').textContent = property.unit;
+      document.getElementById('detailType').textContent = property.type;
+      document.getElementById('detailVillage').textContent = property.village;
+      document.getElementById('detailSurvey').textContent = property.survey;
+      document.getElementById('detailBuilt').textContent = property.built;
+      document.getElementById('detailUds').textContent = property.uds;
+      document.getElementById('ownerName').textContent = property.owner;
+      document.getElementById('ownerRole').textContent = property.role;
+      document.getElementById('phoneNumber').textContent = revealNumber ? property.phone : property.masked;
+      document.getElementById('contactSource').textContent = property.source;
+      document.getElementById('contactNote').textContent = `Match confidence ${property.confidence} · ${property.match === 'confirmed' ? 'verified contact match' : 'candidate until verified'}.`;
+      const matchStatus = document.getElementById('matchStatus');
+      matchStatus.textContent = property.match === 'confirmed' ? 'Verified' : property.match === 'rejected' ? 'Rejected' : 'Candidate';
+      matchStatus.className = `pill ${statusClass(property.match)}`;
+      document.getElementById('confirmMatch').disabled = property.match === 'confirmed';
+      document.getElementById('rejectMatch').disabled = property.match === 'rejected';
+      document.getElementById('reraValue').textContent = property.rera;
+      document.getElementById('registryList').innerHTML = property.docs.map((doc) => `
+        <div class="registry-row"><div class="registry-date">${doc.date}</div><div><div class="registry-kind">${doc.kind}</div><div class="registry-number">${doc.no}</div></div><div class="registry-value">${doc.value}</div></div>`).join('');
+      renderIntent();
+      iconRefresh();
+    }
+
+    function renderIntent() {
+      const intent = currentIntent();
+      document.getElementById('saleTab').classList.toggle('active', activeIntent === 'sale');
+      document.getElementById('saleTab').setAttribute('aria-selected', activeIntent === 'sale');
+      document.getElementById('rentTab').classList.toggle('active', activeIntent === 'rent');
+      document.getElementById('rentTab').setAttribute('aria-selected', activeIntent === 'rent');
+      document.getElementById('intentKindLabel').textContent = activeIntent === 'sale' ? 'SALE TRACK' : 'RENT TRACK';
+      document.getElementById('intentStatusText').textContent = statusLabel(intent.status);
+      document.getElementById('intentAmount').textContent = intent.amount;
+      document.getElementById('intentAmountLabel').textContent = intent.amountLabel;
+      const statusSelect = document.getElementById('intentStatusSelect');
+      statusSelect.innerHTML = statusOptions.map(([value, label]) => `<option value="${value}" ${value === intent.status ? 'selected' : ''}>${label}</option>`).join('');
+      document.getElementById('callCount').textContent = `${intent.calls.length} ${intent.calls.length === 1 ? 'attempt' : 'attempts'}`;
+      document.getElementById('callEntries').innerHTML = intent.calls.length ? intent.calls.map((call) => `
+        <div class="call-entry"><span class="call-icon"><i data-lucide="phone-outgoing"></i></span><span><span class="call-entry-main">${call.outcome}</span><span class="call-entry-note">${call.note || ''}</span></span><span class="call-entry-time">${call.time}</span></div>`).join('') : '<div class="panel-meta">No calls logged</div>';
+      const interested = intent.status === 'interested';
+      const ownerVerified = activeProperty().match === 'confirmed';
+      document.getElementById('markInterestedButton').disabled = interested || !ownerVerified;
+      document.getElementById('createListingButton').disabled = !interested || !ownerVerified;
+      document.getElementById('listingHandoffText').textContent = !ownerVerified
+        ? 'Confirm the owner match before recording intent or creating a listing.'
+        : interested
+          ? 'Offer confirmed? Create the matching listing.'
+          : 'Listing stays separate until offer details are confirmed.';
+      iconRefresh();
+    }
+
+    function propertyById(propertyId) {
+      return properties.find((property) => property.id === propertyId) || properties[0];
+    }
+
+    function openPropertyInOutreach(propertyId) {
+      selectedId = propertyId;
+      activeIntent = 'sale';
+      revealNumber = false;
+      switchScreen('outreach');
+      renderQueue();
+    }
+
+    function renderCatalog() {
+      const query = document.getElementById('catalogSearch').value.trim().toLowerCase();
+      const type = document.getElementById('catalogType').value;
+      const rows = properties.filter((property) => {
+        const matchesText = !query || `${property.project} ${property.unit} ${property.village} ${property.survey} ${property.id}`.toLowerCase().includes(query);
+        return matchesText && (type === 'all' || property.type === type);
+      });
+      document.getElementById('catalogCount').textContent = `${rows.length} sample records`;
+      document.getElementById('catalogTableBody').innerHTML = rows.map((property) => `
+        <tr>
+          <td><div class="table-primary">${property.project}</div><div class="table-secondary">${property.unit} · ${property.id}</div></td>
+          <td>${property.type}</td><td>${property.village}<div class="table-secondary">Serilingampally SRO</div></td>
+          <td>${property.survey}</td><td>${property.docs.length} documents</td>
+          <td><span class="pill ${statusClass(property.match)}">${property.match === 'confirmed' ? 'Contact verified' : 'Candidate'}</span></td>
+          <td><div class="table-actions"><button class="button" type="button" data-open-property="${property.id}">Open</button></div></td>
+        </tr>`).join('');
+      iconRefresh();
+    }
+
+    function renderListings() {
+      const query = document.getElementById('listingSearch').value.trim().toLowerCase();
+      const status = document.getElementById('listingStatusFilter').value;
+      const rows = listings.filter((listing) => {
+        const property = propertyById(listing.propertyId);
+        const matchesText = !query || `${property.project} ${property.unit} ${property.owner}`.toLowerCase().includes(query);
+        const matchesType = listingTypeFilter === 'all' || listing.type === listingTypeFilter;
+        const matchesStatus = status === 'all' || listing.status === status;
+        return matchesText && matchesType && matchesStatus;
+      });
+      document.getElementById('listingCount').textContent = `${rows.length} offers`;
+      document.getElementById('listingTableBody').innerHTML = rows.map((listing) => {
+        const property = propertyById(listing.propertyId);
+        const amount = `₹${listing.price.toLocaleString('en-IN')}${listing.type === 'rent' ? ` / ${listing.period}` : ''}`;
+        return `<tr>
+          <td><div class="table-primary">${property.project}</div><div class="table-secondary">${property.unit}</div></td>
+          <td><span class="pill ${listing.type === 'sale' ? 'pill-confirmed' : 'pill-callback'}">${listing.type === 'sale' ? 'Resale' : 'Rental'}</span></td>
+          <td class="table-primary">${amount}</td><td>${listing.availability}</td>
+          <td><span class="pill ${property.match === 'confirmed' ? 'pill-confirmed' : 'pill-candidate'}">${property.match === 'confirmed' ? 'Verified' : 'Review'}</span></td>
+          <td><span class="pill ${listing.status === 'active' ? 'pill-confirmed' : 'pill-quiet'}">${listing.status}</span></td>
+          <td><div class="table-actions"><button class="button" type="button" data-open-property="${property.id}">Property</button></div></td>
+        </tr>`;
+      }).join('');
+      iconRefresh();
+    }
+
+    function registryRecords() {
+      return properties.flatMap((property) => property.docs.map((document) => ({
+        property,
+        document,
+        documentType: document.kind.includes('Sale deed') ? 'Sale deed' : document.kind.toLowerCase().includes('mortgage') || document.kind.toLowerCase().includes('title deeds') ? 'Mortgage' : 'Other',
+      }))).sort((a, b) => Date.parse(b.document.date) - Date.parse(a.document.date));
+    }
+
+    function renderRegistry() {
+      const query = document.getElementById('registrySearch').value.trim().toLowerCase();
+      const type = document.getElementById('registryType').value;
+      const rows = registryRecords().filter(({ property, document, documentType }) => {
+        const matchesText = !query || `${property.project} ${property.unit} ${property.owner} ${property.survey} ${document.no} ${document.kind} ${documentType}`.toLowerCase().includes(query);
+        const matchesType = type === 'all' || (type === 'Other' ? documentType === 'Other' : documentType === type);
+        return matchesText && matchesType;
+      });
+      document.getElementById('registryCount').textContent = `${rows.length} source records`;
+      document.getElementById('registryTableBody').innerHTML = rows.map(({ property, document, documentType }) => `
+        <tr>
+          <td>${document.date}<div class="table-secondary">Serilingampally · 2026</div></td>
+          <td><div class="table-primary">${document.kind}</div><div class="table-secondary">${document.no}</div></td>
+          <td><div class="table-primary">${property.project}</div><div class="table-secondary">${property.unit} · Survey ${property.survey}</div></td>
+          <td>${property.owner}<div class="table-secondary">${property.role}</div></td>
+          <td>${document.value}</td>
+          <td><span class="pill ${property.match === 'confirmed' ? 'pill-confirmed' : 'pill-candidate'}">${property.match === 'confirmed' ? 'Accepted' : 'Review'}</span></td>
+          <td><div class="table-actions"><button class="button" type="button" data-open-property="${property.id}">Property</button></div></td>
+        </tr>`).join('');
+      iconRefresh();
+    }
+
+    function renderCoverage() {
+      document.getElementById('coverageBars').innerHTML = coverageData.map((item) => `
+        <div class="coverage-item"><span class="table-primary">${item.name}</span><div class="coverage-bar" title="${item.percent}% coverage"><span style="width:${item.percent}%"></span></div><strong>${item.percent}%</strong><span class="table-secondary">${item.records} records · ${item.span} · ${item.promoted} promoted</span></div>`).join('');
+      document.getElementById('runTableBody').innerHTML = importRunData.map((run) => `
+        <tr><td><span class="table-primary">${run.office}</span></td><td>${run.started}</td><td>${run.rows}</td><td><span class="pill ${run.status === 'Completed' ? 'pill-confirmed' : 'pill-callback'}">${run.status}</span></td></tr>`).join('');
+      iconRefresh();
+    }
+
+    const screenLabels = {
+      catalog: 'Property catalog', outreach: 'Owner outreach', listings: 'Listings',
+      registry: 'Registry explorer', coverage: 'SRO coverage', settings: 'Settings',
+    };
+
+    function switchScreen(screenName) {
+      if (!screenLabels[screenName]) return;
+      activeScreen = screenName;
+      document.querySelectorAll('[data-screen]').forEach((screen) => screen.classList.toggle('active', screen.dataset.screen === screenName));
+      document.getElementById('screenCrumb').textContent = screenLabels[screenName];
+      document.querySelectorAll('[data-screen-target]').forEach((button) => button.classList.toggle('active', button.dataset.screenTarget === screenName));
+      const renderers = { catalog: renderCatalog, outreach: renderQueue, listings: renderListings, registry: renderRegistry, coverage: renderCoverage };
+      renderers[screenName]?.();
+      const mobileNav = document.getElementById('mobileNavDialog');
+      if (mobileNav.open) mobileNav.close();
+      document.title = `${screenLabels[screenName]} | Realty Desk`;
+      document.querySelector('html').scrollTop = 0;
+      iconRefresh();
+    }
+
+    function openPropertyInOutreach(propertyId) {
+      selectedId = propertyId;
+      activeIntent = 'sale';
+      revealNumber = false;
+      switchScreen('outreach');
+    }
+
+    function updateStatus(status) {
+      const requiresVerifiedOwner = ['interested', 'not_interested', 'callback_requested', 'opted_out'].includes(status);
+      if (requiresVerifiedOwner && activeProperty().match !== 'confirmed') {
+        renderIntent();
+        showToast('Confirm the owner match before recording this intent');
+        return;
+      }
+      const intent = currentIntent();
+      intent.status = status;
+      if (status === 'interested' && intent.amount === 'Not confirmed') {
+        intent.amount = activeIntent === 'sale' ? 'Amount to confirm' : 'Rent to confirm';
+      }
+      renderQueue();
+      showToast(`${activeIntent === 'sale' ? 'Sale' : 'Rent'} intent updated · ${statusLabel(status)}`);
+    }
+
+    function closeDialog(id) { document.getElementById(id).close(); }
+
+    document.querySelectorAll('[data-close]').forEach((button) => button.addEventListener('click', () => closeDialog(button.dataset.close)));
+    document.getElementById('revealPhone').addEventListener('click', () => {
+      revealNumber = !revealNumber;
+      renderDetail();
+    });
+    document.getElementById('confirmMatch').addEventListener('click', () => {
+      const property = activeProperty();
+      property.match = 'confirmed';
+      renderQueue();
+      showToast('Contact match confirmed for this property');
+    });
+    document.getElementById('rejectMatch').addEventListener('click', () => {
+      activeProperty().match = 'rejected';
+      renderQueue();
+      showToast('Candidate match rejected');
+    });
+    document.getElementById('saleTab').addEventListener('click', () => { activeIntent = 'sale'; renderIntent(); });
+    document.getElementById('rentTab').addEventListener('click', () => { activeIntent = 'rent'; renderIntent(); });
+    document.getElementById('intentStatusSelect').addEventListener('change', (event) => updateStatus(event.target.value));
+    document.getElementById('markInterestedButton').addEventListener('click', () => {
+      updateStatus('interested');
+      showToast(`${activeIntent === 'sale' ? 'Sale' : 'Rent'} interest confirmed; listing remains a separate step`);
+    });
+    document.getElementById('logCallButton').addEventListener('click', () => {
+      document.getElementById('callForm').reset();
+      document.getElementById('identityVerificationField').hidden = true;
+      document.getElementById('callDialog').showModal();
+    });
+    document.getElementById('callOutcome').addEventListener('change', (event) => {
+      document.getElementById('callbackField').hidden = event.target.value !== 'callback_requested';
+      document.getElementById('identityVerificationField').hidden = !['connected_interested', 'connected_not_interested', 'callback_requested', 'opted_out'].includes(event.target.value);
+    });
+    document.getElementById('callForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const outcome = document.getElementById('callOutcome').value;
+      const note = document.getElementById('callNotes').value.trim();
+      const outcomeLabels = {
+        connected_interested: 'Connected · interested', connected_not_interested: 'Connected · not interested',
+        callback_requested: 'Callback requested', no_answer: 'No answer', busy: 'Busy',
+        wrong_number: 'Wrong number', wrong_person: 'Wrong person', opted_out: 'Opted out',
+      };
+      const intent = currentIntent();
+      const property = activeProperty();
+      const ownerVerified = document.getElementById('identityVerified').checked;
+      const requiresVerifiedOwner = ['connected_interested', 'connected_not_interested', 'callback_requested', 'opted_out'].includes(outcome);
+      intent.calls.unshift({ outcome: outcomeLabels[outcome], note, time: 'Just now' });
+      const statusMap = {
+        connected_interested: 'interested', connected_not_interested: 'not_interested',
+        callback_requested: 'callback_requested', no_answer: 'unreachable', busy: 'unreachable',
+        wrong_number: 'wrong_number', wrong_person: 'wrong_number', opted_out: 'opted_out',
+      };
+      if (requiresVerifiedOwner && ownerVerified) property.match = 'confirmed';
+      if (outcome === 'wrong_number' || outcome === 'wrong_person') property.match = 'rejected';
+      intent.status = requiresVerifiedOwner && !ownerVerified ? 'contacting' : statusMap[outcome];
+      if (outcome === 'connected_interested' && ownerVerified && intent.amount === 'Not confirmed') intent.amount = 'Amount to confirm';
+      closeDialog('callDialog');
+      renderQueue();
+      showToast(requiresVerifiedOwner && !ownerVerified
+        ? 'Call attempt saved · verify the contact before recording owner intent'
+        : `Call attempt saved · ${outcomeLabels[outcome]}`);
+    });
+    document.getElementById('createListingButton').addEventListener('click', () => {
+      if (activeProperty().match !== 'confirmed' || currentIntent().status !== 'interested') return;
+      document.getElementById('listingType').value = activeIntent;
+      document.getElementById('rentPeriodField').hidden = activeIntent !== 'rent';
+      document.getElementById('listingPrice').value = '';
+      document.getElementById('listingDialog').showModal();
+    });
+    document.getElementById('listingType').addEventListener('change', (event) => {
+      document.getElementById('rentPeriodField').hidden = event.target.value !== 'rent';
+    });
+    document.getElementById('listingForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const type = document.getElementById('listingType').value;
+      const price = Number(document.getElementById('listingPrice').value);
+      if (!price || price <= 0) return;
+      const targetIntent = activeProperty().intents[type];
+      if (activeProperty().match !== 'confirmed' || targetIntent.status !== 'interested') {
+        closeDialog('listingDialog');
+        showToast('Confirm this owner and intent before creating a listing');
+        return;
+      }
+      const label = type === 'sale' ? `Sale listing · ₹${price.toLocaleString('en-IN')}` : `Rental listing · ₹${price.toLocaleString('en-IN')}/${document.getElementById('rentPeriod').value}`;
+      const property = activeProperty();
+      property.docs.unshift({ date: 'Just now', kind: label, no: 'Portal listing · draft', value: 'Offer verified' });
+      targetIntent.status = 'converted';
+      closeDialog('listingDialog');
+      renderQueue();
+      showToast('Verified offer saved as a separate listing');
+    });
+    document.getElementById('addContactButton').addEventListener('click', () => {
+      const select = document.getElementById('contactProperty');
+      select.innerHTML = properties.map((property) => `<option value="${property.id}" ${property.id === selectedId ? 'selected' : ''}>${property.project} · ${property.unit}</option>`).join('');
+      document.getElementById('contactForm').reset();
+      select.value = selectedId;
+      document.getElementById('contactDialog').showModal();
+    });
+    document.getElementById('contactForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const property = properties.find((item) => item.id === document.getElementById('contactProperty').value);
+      property.owner = document.getElementById('contactOwnerInput').value.trim() || 'New contact candidate';
+      property.initials = property.owner.split(/\s+/).map((part) => part[0]).join('').slice(0,2).toUpperCase();
+      const rawPhone = document.getElementById('contactPhone').value.trim();
+      property.phone = rawPhone;
+      property.masked = rawPhone.length > 7 ? `${rawPhone.slice(0, 6)}••• ${rawPhone.slice(-4)}` : 'Number on file';
+      property.source = `${document.getElementById('contactSourceInput').value.trim()} · added today · unverified source`;
+      property.match = 'candidate';
+      property.confidence = '0.50';
+      selectedId = property.id;
+      closeDialog('contactDialog');
+      renderQueue();
+      showToast('Sourced contact added as a candidate');
+    });
+    document.getElementById('refreshButton').addEventListener('click', () => showToast('Queue refreshed'));
+    document.getElementById('registryButton').addEventListener('click', () => switchScreen('registry'));
+    document.getElementById('allDocumentsButton').addEventListener('click', () => showToast('Showing the linked registration history for this property'));
+    document.getElementById('reraButton').addEventListener('click', () => showToast(`RERA ${activeProperty().rera.split(' · ')[0]} · status from latest source observation`));
+    document.getElementById('moreButton').addEventListener('click', () => showToast('Property actions'));
+    document.getElementById('contactMenu').addEventListener('click', () => showToast('Contact actions'));
+    document.getElementById('menuButton').addEventListener('click', () => document.getElementById('mobileNavDialog').showModal());
+    document.querySelectorAll('[data-screen-target]').forEach((button) => button.addEventListener('click', () => switchScreen(button.dataset.screenTarget)));
+    document.body.addEventListener('click', (event) => {
+      const openButton = event.target.closest('[data-open-property]');
+      if (openButton) openPropertyInOutreach(openButton.dataset.openProperty);
+    });
+    document.querySelectorAll('[data-intent-filter]').forEach((button) => button.addEventListener('click', () => {
+      document.querySelectorAll('[data-intent-filter]').forEach((item) => item.classList.remove('active'));
+      button.classList.add('active');
+      intentFilter = button.dataset.intentFilter;
+      renderQueue();
+    }));
+    queueSearch.addEventListener('input', renderQueue);
+    globalSearch.addEventListener('input', () => {
+      const targets = { catalog: 'catalogSearch', outreach: 'queueSearch', listings: 'listingSearch', registry: 'registrySearch' };
+      const target = document.getElementById(targets[activeScreen]);
+      if (!target) return;
+      target.value = globalSearch.value;
+      const renderers = { catalog: renderCatalog, outreach: renderQueue, listings: renderListings, registry: renderRegistry };
+      renderers[activeScreen]?.();
+    });
+    typeFilter.addEventListener('change', renderQueue);
+    document.getElementById('sortFilter').addEventListener('change', renderQueue);
+    document.getElementById('catalogSearch').addEventListener('input', renderCatalog);
+    document.getElementById('catalogType').addEventListener('change', renderCatalog);
+    document.getElementById('listingSearch').addEventListener('input', renderListings);
+    document.getElementById('listingStatusFilter').addEventListener('change', renderListings);
+    document.querySelectorAll('[data-listing-type]').forEach((button) => button.addEventListener('click', () => {
+      document.querySelectorAll('[data-listing-type]').forEach((item) => item.classList.remove('active'));
+      button.classList.add('active');
+      listingTypeFilter = button.dataset.listingType;
+      renderListings();
+    }));
+    document.getElementById('registrySearch').addEventListener('input', renderRegistry);
+    document.getElementById('registryType').addEventListener('change', renderRegistry);
+    document.getElementById('catalogImport').addEventListener('click', () => showToast('SRO CSV import is available through the ingestion workflow'));
+    document.getElementById('catalogAdd').addEventListener('click', () => showToast('Canonical properties are created from reviewed SRO observations'));
+    document.getElementById('catalogExport').addEventListener('click', () => showToast('Property catalog export prepared'));
+    document.getElementById('listingCreateButton').addEventListener('click', () => {
+      const eligible = properties.find((property) => property.match === 'confirmed'
+        && ['sale', 'rent'].some((intentType) => property.intents[intentType].status === 'interested'));
+      if (!eligible) {
+        showToast('Confirm an owner match and intent before creating a listing');
+        return;
+      }
+      openPropertyInOutreach(eligible.id);
+      activeIntent = eligible.intents.sale.status === 'interested' ? 'sale' : 'rent';
+      renderIntent();
+      document.getElementById('createListingButton').click();
+    });
+    document.getElementById('listingFiltersButton').addEventListener('click', () => {
+      document.getElementById('listingStatusFilter').focus();
+      showToast('Choose active, draft or all listings');
+    });
+    document.getElementById('registryExport').addEventListener('click', () => showToast('Registry search results prepared for export'));
+    document.getElementById('coverageRefresh').addEventListener('click', () => { renderCoverage(); showToast('SRO coverage refreshed'); });
+    document.getElementById('settingsSave').addEventListener('click', () => showToast('Workspace settings saved in this mockup'));
+    document.getElementById('addSource').addEventListener('click', () => showToast('Additional source setup is available to administrators'));
+    document.getElementById('inviteUser').addEventListener('click', () => showToast('Invite flow opened for workspace administrator'));
+    document.querySelectorAll('#screen-settings .toggle').forEach((toggle) => toggle.addEventListener('change', () => showToast(`${toggle.getAttribute('aria-label')} ${toggle.checked ? 'enabled' : 'disabled'} · save to apply`)));
+    document.getElementById('sroFilter').addEventListener('change', (event) => {
+      showToast(event.target.value === 'All SROs' ? 'Showing loaded sample records from Serilingampally' : 'SRO filter applied');
+    });
+
+    renderQueue();
+  </script>
+</body>
+</html>
